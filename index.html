@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diib | تطوير البرامج</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+  }
+
+  :root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --dark: #0f172a;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --accent: #06b6d4;
+  }
+
+  body {
+    background: var(--light);
+    color: var(--dark);
+    line-height: 1.7;
+  }
+
+  /* ===== الهيدر ===== */
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    z-index: 1000;
+  }
+
+  nav {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+  }
+
+  .logo span { color: var(--dark); }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  nav a:hover { color: var(--primary); }
+
+  .menu-btn {
+    display: none;
+    font-size: 1.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* ===== القسم الرئيسي ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    background: radial-gradient(circle at 20% 30%, rgba(99,102,241,0.15), transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(6,182,212,0.15), transparent 50%);
+  }
+
+  .hero-content { max-width: 800px; }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1.2rem;
+    line-height: 1.2;
+  }
+
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    color: var(--gray);
+    margin-bottom: 2.5rem;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    box-shadow: 0 10px 25px rgba(99,102,241,0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(99,102,241,0.5);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--dark);
+    border: 2px solid var(--dark);
+  }
+
+  .btn-outline:hover {
+    background: var(--dark);
+    color: white;
+  }
+
+  /* ===== الأقسام ===== */
+  section { padding: 5rem 2rem; }
+
+  .container {
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    color: var(--gray);
+    margin-bottom: 3.5rem;
+    font-size: 1.1rem;
+  }
+
+  /* ===== الخدمات ===== */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .service-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+    border-top: 4px solid transparent;
+  }
+
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border-top-color: var(--primary);
+  }
+
+  .service-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .service-card p {
+    color: var(--gray);
+    font-size: 0.95rem;
+  }
+
+  /* ===== عن الشركة ===== */
+  .about {
+    background: var(--dark);
+    color: white;
+  }
+
+  .about .section-title { color: white; }
+  .about .section-subtitle { color: #94a3b8; }
+
+  .about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .about-text p {
+    color: #cbd5e1;
+    margin-bottom: 1.2rem;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .stat-box {
+    background: rgba(99,102,241,0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid rgba(99,102,241,0.3);
+  }
+
+  .stat-box h4 {
+    font-size: 2.2rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stat-box p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+  }
+
+  /* ===== تواصل ===== */
+  .contact-form {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+
+  .form-group { margin-bottom: 1.3rem; }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .contact-form .btn-primary {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  /* ===== الفوتر ===== */
+  footer {
+    background: var(--dark);
+    color: #94a3b8;
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ===== استجابة الجوال ===== */
+  @media (max-width: 768px) {
+    nav ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: 0;
+      background: white;
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 1rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    nav ul.active { display: flex; }
+
+    .menu-btn { display: block; }
+
+    .about-content {
+      grid-template-columns: 1fr;
+    }
+
+    section { padding: 3.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- الهيدر -->
+<header>
+  <nav>
+    <div class="logo">Diib<span>.</span></div>
+    <ul id="menu">
+      <li><a href="#home">الرئيسية</a></li>
+      <li><a href="#services">خدماتنا</a></li>
+      <li><a href="#about">من نحن</a></li>
+      <li><a href="#contact">تواصل</a></li>
+    </ul>
+    <button class="menu-btn" onclick="document.getElementById('menu').classList.toggle('active')">☰</button>
+  </nav>
+</header>
+
+<!-- القسم الرئيسي -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h1>نطوّر برامج <span class="highlight">تُحدث الفرق</span></h1>
+    <p>شركة Diib متخصصة في تطوير حلول برمجية مبتكرة، مواقع ويب، تطبيقات موبايل، وأنظمة مخصصة تلبي احتياجات عملك.</p>
+    <div class="btn-group">
+      <a href="#services" class="btn btn-primary">اكتشف خدماتنا</a>
+      <a href="#contact" class="btn btn-outline">تواصل معنا</a>
+    </div>
+  </div>
+</section>
+
+<!-- الخدمات -->
+<section id="services">
+  <div class="container">
+    <h2 class="section-title">خدماتنا</h2>
+    <p class="section-subtitle">حلول برمجية متكاملة بأحدث التقنيات</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">💻</div>
+        <h3>تطوير المواقع</h3>
+        <p>مواقع سريعة، متجاوبة، ومحسّنة لمحركات البحث باستخدام أحدث التقنيات.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📱</div>
+        <h3>تطبيقات الموبايل</h3>
+        <p>تطبيقات iOS و Android أصلية وهجينة بتجربة مستخدم سلسة.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚙️</div>
+        <h3>أنظمة مخصصة</h3>
+        <p>برامج مصممة خصيصاً لأتمتة عملك وزيادة إنتاجيتك.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">☁️</div>
+        <h3>حلول سحابية</h3>
+        <p>بنية سحابية آمنة وقابلة للتوسع مع خدمات الاستضافة والصيانة.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎨</div>
+        <h3>تصميم UI/UX</h3>
+        <p>واجهات جذابة وتجارب مستخدم مدروسة ترفع معدل التفاعل.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔒</div>
+        <h3>الأمن السيبراني</h3>
+        <p>حماية بياناتك واختبار الاختراق لضمان أمان تطبيقاتك.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- عن الشركة -->
+<section class="about" id="about">
+  <div class="container">
+    <h2 class="section-title">من نحن</h2>
+    <p class="section-subtitle">فريق شغوف ببناء برامج استثنائية</p>
+    <div class="about-content">
+      <div class="about-text">
+        <p>في <strong>Diib</strong>، نؤمن بأن البرمجيات الجيدة قادرة على تغيير طريقة عمل الشركات وحياة الأفراد.</p>
+        <p>فريقنا من المطورين والمصممين يعمل بشغف لتحويل أفكارك إلى منتجات رقمية حقيقية، مع التركيز على الجودة، السرعة، وتجربة المستخدم.</p>
+        <p>نرافقك من الفكرة الأولى حتى الإطلاق والدعم المستمر.</p>
+      </div>
+      <div class="stats">
+        <div class="stat-box">
+          <h4>+50</h4>
+          <p>مشروع منجز</p>
+        </div>
+        <div class="stat-box">
+          <h4>+30</h4>
+          <p>عميل سعيد</p>
+        </div>
+        <div class="stat-box">
+          <h4>5</h4>
+          <p>سنوات خبرة</p>
+        </div>
+        <div class="stat-box">
+          <h4>24/7</h4>
+          <p>دعم فني</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- تواصل -->
+<section id="contact">
+  <div class="container">
+    <h2 class="section-title">تواصل معنا</h2>
+    <p class="section-subtitle">لديك فكرة مشروع؟ دعنا نناقشها</p>
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('شكراً! سيتم التواصل معك قريباً.'); this.reset();">
+      <div class="form-group">
+        <label>الاسم الكامل</label>
+        <input type="text" required placeholder="أدخل اسمك">
+      </div>
+      <div class="form-group">
+        <label>البريد الإلكتروني</label>
+        <input type="email" required placeholder="example@email.com">
+      </div>
+      <div class="form-group">
+        <label>الموضوع</label>
+        <input type="text" required placeholder="موضوع الرسالة">
+      </div>
+      <div class="form-group">
+        <label>الرسالة</label>
+        <textarea required placeholder="اكتب رسالتك هنا..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">إرسال الرسالة</button>
+    </form>
+  </div>
+</section>
+
+<!-- الفوتر -->
+<footer>
+  <p>© 2025 <strong>Diib</strong> — جميع الحقوق محفوظة. | صُنع بـ ❤️ لتطوير البرامج</p>
+</footer>
+
+<script>
+  // تمرير سلس عند الضغط على روابط القائمة
+  document.querySelectorAll('nav a, .btn-group a').forEach(link => {
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('menu').classList.remove('active');
+      }
+    });
+  });
+
+  // تغيير خلفية الهيدر عند التمرير
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) {
+      header.style.boxShadow = '0 5px 25px rgba(0,0,0,0.1)';
+    } else {
+      header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.05)';
+    }
+  });
+</script>
+
+</body>
+</html>
